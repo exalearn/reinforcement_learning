@@ -10,8 +10,5 @@
 * Make this code work with GPU
 * Need to finish command line parameter settings 
 
-
 ## Reference
-```
-https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
-```
+* [REINFORCEMENT LEARNING (DQN) TUTORIAL by PyTorch](https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html)
