@@ -9,8 +9,10 @@
 * Python with [PyTorch](https://pytorch.org/) and [OpenAI Gym](https://gym.openai.com/)
 
 ## Example commands to run
+```
 python dqn_cart_pole.py                                # With default parameter settings
 python dqn_cart_pole.py -figure=false -print=false     # No figures and not printing details  (much faster)
+```
 
 ## TODO
 * Make this code work using GPU
