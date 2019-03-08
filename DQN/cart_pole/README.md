@@ -3,7 +3,7 @@
 * The cart-pole balancing problem is a classical control problem
 ([CartPolev0](https://github.com/openai/gym/wiki/CartPole-v0)).
 
-* DQN finishes training whenever it detects 5 consecutive successes or it reaches its limited trials/episodes.
+* DQN finishes training whenever it detects 5 consecutive successes or it reaches the maximum number of trials/episodes.
 
 ## Software Requirement
 * Python with [PyTorch](https://pytorch.org/) and [OpenAI Gym](https://gym.openai.com/)
