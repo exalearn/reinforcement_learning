@@ -9,8 +9,10 @@
 * Python with [PyTorch](https://pytorch.org/) and [OpenAI Gym](https://gym.openai.com/)
 
 ## Example commands to run
+```
 python dqn_mountain_car.py                                # default
 python dqn_mountain_car.py -figure=false -print=false     # No figures and Not printing details
+```
 
 ## TODO:
 * Make this code work with GPU
