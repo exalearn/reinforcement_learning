@@ -43,8 +43,8 @@ args = vars(parser.parse_args())
 
 showFigures     = False if args['figure'] == 'false' else True # show figures
 printDetails    = False if args['print'] == 'false' else True  # print details
-EPISODES        = 100  if args['episodes'] is None else args['episodes'] # # of epoches to train
-TIMESTEPS       = 200  if args['steps'] is None else args['steps'] # # of time steps in each epoch
+EPISODES        = 100  if args['episodes'] is None else args['episodes'] # # of episodes to train
+TIMESTEPS       = 200  if args['steps'] is None else args['steps'] # # of time steps in each episode
 ALPHA           = 0.01 if args['alpha'] == None else args['alpha'] # learning rate
 GAMMA           = 0.9  if args['gamma'] == None else args['gamma'] # discount factor
 BATCH_SIZE      = 32   if args['batch_size'] == None else args['batch_size'] # batch size
@@ -108,20 +108,21 @@ class DQN(object):
             state = torch.unsqueeze(torch.FloatTensor(state), 0).to(device)
             Q = self.policy_net.forward(state)
             return torch.max(Q, 1)[1].data.numpy()[0]
+            #with torch.no_grad():
+            #    return self.policy_net(state).max(1)[1].view(1, 1)
         else: # random
-            return torch.tensor([[random.randrange(ACTION_SIZE)]], \
-                   device=device, dtype=torch.long).item()
+            return torch.tensor([[random.randrange(ACTION_SIZE)]], device=device, dtype=torch.long).item()
 
 
     def store_transition(self, s, a, r, s1):
         transition = np.hstack((s, [a, r], s1))
-        # replace the old memory with new memory
-        index = self.mem_counter % MEMORY_CAPACITY
+        index = self.mem_counter % MEMORY_CAPACITY  # replace the old memory with new memory
         self.memory[index, :] = transition
         self.mem_counter += 1
 
 
     def learn(self):
+
         # target parameter update
         if self.learn_counter % TARGET_UPDATE == 0:
             self.target_net.load_state_dict(self.policy_net.state_dict())
@@ -150,7 +151,7 @@ class DQN(object):
 
     def train(self):
 
-        print('\n################### Start collecting experience ###################')
+        if printDetails : print('\n################### Start collecting experience ###################')
 
         for e in range(EPISODES):
 
@@ -159,7 +160,7 @@ class DQN(object):
 
             while True:
 
-                env.render() #if showFigures: env.render()
+                if showFigures: env.render()
                 a = self.select_action(s)        # select action
                 s1, r, done, info = env.step(a)  # take action
                 score += r  # accumulate the original score
@@ -168,24 +169,24 @@ class DQN(object):
 
                 # if enough trajectories in the replay memory, start training DQN
                 if self.mem_counter > 5*BATCH_SIZE:  # I randomly picked this size! :)
-                    if self.isStartedLearning: self.start_learning_comment()
+                    if self.isStartedLearning : self.start_learning_comment()
                     self.learn()
 
                 if done or score>=TIMESTEPS:
-                    self.listScore.append(int(score))    # TODO: fix this slow procedure!! :(
-                    if printDetails : print('Epoch: ', e, '\tReward: ', int(score))
+                    if showFigures  : self.listScore.append(int(score))    # TODO: fix this slow procedure!! :(
+                    if printDetails : print('Episode: ', e, '\tReward: ', int(score))
                     self.success_tracker(score)
                     break
 
                 s = s1
 
             if self.success_counter >= 5:
-                self.plotReward()
+                if showFigures : self.plotReward()
                 self.print_result(e)
                 break
 
 
-    def reward_shaping(self, s1):
+    def reward_shaping(self, s1):   # imprve reward function
         x, x_dot, theta, theta_dot = s1
         r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
         r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
@@ -194,8 +195,7 @@ class DQN(object):
 
     def success_tracker(self, score):
         if score >= TIMESTEPS:
-            if not self.isSuccess:
-                self.success_counter = 0
+            if not self.isSuccess : self.success_counter = 0
             self.isSuccess = True
             self.success_counter += 1
         else:
