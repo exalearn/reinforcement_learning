@@ -5,7 +5,7 @@
 
 * DQN finishes training whenever it detects 5 consecutive successes or it reaches the maximum number of trials/episodes.
 
-## Software Requirement:
+## Software Requirement
 * Python with [PyTorch](https://pytorch.org/) and [OpenAI Gym](https://gym.openai.com/)
 
 ## Example commands to run
