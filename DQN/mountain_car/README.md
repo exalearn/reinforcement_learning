@@ -14,8 +14,5 @@ python dqn_mountain_car.py                                # default
 python dqn_mountain_car.py -figure=false -print=false     # No figures and Not printing details
 ```
 
-## TODO:
-* Make this code work with GPU
-
 ## Reference
 * [REINFORCEMENT LEARNING (DQN) TUTORIAL by PyTorch](https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html)
