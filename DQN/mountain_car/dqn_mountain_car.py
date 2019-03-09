@@ -61,8 +61,7 @@ STATE_SIZE  = env.observation_space.shape[0]
 ACTION_SIZE = env.action_space.n
 
 # if gpu is to be used
-device = "cpu"
-#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ############################# Neural Net class #############################
 
@@ -86,14 +85,16 @@ class DQN(object):
         self.policy_net    = Net().to(device) # policy network
         self.target_net    = Net().to(device) # target network
         self.target_net.load_state_dict(self.policy_net.state_dict())  # copy the policy net parameters to target net
+        self.target_net.eval()
+
         self.learn_counter = 0 # for target updating
         self.mem_counter   = 0 # for counting memory
         self.memory        = np.zeros((MEMORY_CAPACITY, STATE_SIZE * 2 + 2))  # initialize replay memory
         self.optimizer     = torch.optim.Adam(self.policy_net.parameters(), lr=ALPHA)  # optimizer
         self.loss_func     = nn.MSELoss() # loss function
 
-        self.success_counter = 0  # counting # of consecutive successes
-        self.isSuccess = False    # is successed
+        self.success_counter   = 0  # counting # of consecutive successes
+        self.isSuccess         = False    # is successed
         self.isStartedLearning = True
 
 
@@ -105,10 +106,7 @@ class DQN(object):
 
         if rand_num > EPS: # greedy
             state = torch.unsqueeze(torch.FloatTensor(state), 0).to(device)
-            Q = self.policy_net.forward(state)
-            return torch.max(Q, 1)[1].data.numpy()[0]
-            #with torch.no_grad():
-            #    return self.policy_net(state).max(1)[1].view(1, 1)
+            return self.policy_net(state).max(1)[1].item()
         else: # random
             return torch.tensor([[random.randrange(ACTION_SIZE)]], device=device, dtype=torch.long).item()
 
@@ -131,10 +129,10 @@ class DQN(object):
         sample_index = np.random.choice(MEMORY_CAPACITY, BATCH_SIZE)
         b_memory     = self.memory[sample_index, :]
 
-        b_s  = torch.FloatTensor(b_memory[:, :STATE_SIZE])
-        b_a  = torch.LongTensor(b_memory[:, STATE_SIZE:STATE_SIZE+1].astype(int))
-        b_r  = torch.FloatTensor(b_memory[:, STATE_SIZE+1:STATE_SIZE+2])
-        b_s1 = torch.FloatTensor(b_memory[:, -STATE_SIZE:])
+        b_s  = torch.FloatTensor(b_memory[:, :STATE_SIZE]).to(device)
+        b_a  = torch.LongTensor(b_memory[:, STATE_SIZE:STATE_SIZE+1].astype(int)).to(device)
+        b_r  = torch.FloatTensor(b_memory[:, STATE_SIZE+1:STATE_SIZE+2]).to(device)
+        b_s1 = torch.FloatTensor(b_memory[:, -STATE_SIZE:]).to(device)
 
         # q_eval w.r.t the action in experience
         Q      = self.policy_net(b_s).gather(1, b_a)  # shape (batch, 1)
