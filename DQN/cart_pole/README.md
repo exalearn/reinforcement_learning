@@ -14,8 +14,5 @@ python dqn_cart_pole.py                                # With default parameter 
 python dqn_cart_pole.py -figure=false -print=false     # No figures and not printing details  (much faster)
 ```
 
-## TODO
-* Make this code work using GPU
-
 ## Reference
 * [REINFORCEMENT LEARNING (DQN) TUTORIAL by PyTorch](https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html)
