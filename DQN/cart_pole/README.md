@@ -14,7 +14,7 @@ python dqn_cart_pole.py                                # With default parameter 
 python dqn_cart_pole.py -figure=false -print=false     # No figures and not printing details  (much faster)
 ```
 ## An example result
-![alt text](https://raw.github.com/exalearn/reinforcement_learning/blob/master/DQN/cart_pole/epi_reward.pdf)
+![alt text](https://github.com/exalearn/reinforcement_learning/blob/master/DQN/cart_pole/epi_reward.pdf)
 
 ## Reference
 * [REINFORCEMENT LEARNING (DQN) TUTORIAL by PyTorch](https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html)
