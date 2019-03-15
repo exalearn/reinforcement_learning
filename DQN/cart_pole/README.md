@@ -13,7 +13,7 @@
 | parameters      |      description                               | data type | data type     | default value  |
 |-----------------|:----------------------------------------------:|----------:|--------------:|---------------:|
 | episodes        | the number of episodes to training             | integer   | [1, infinity) | 2000           |
-| steps           | the time step in each episode                  | integer   | [1, infinity) | 200            |
+| steps           | the time steps in each episode                 | integer   | [1, infinity) | 200            |
 | alpha           | learning rate                                  | double    | (0, 1)        | 0.01           |
 | gamma           | discount factor                                | double    | [0,1]         | 0.9            |
 | batch_size      | the size of mini batch for a neural network    | integer   | (0, infinity)**      | 32             |
@@ -21,7 +21,7 @@
 | memory_capacity | the maximum capacity of replay memory          | integer   | (0, infinity)***     | 2000           |
 | eps             | the initial value of epsilon                   | double    | [0, 1]        | 0.9            |
 | eps_min         | the minimum value of epsilon                   | double    | [0, eps]      | 0.01           |
-| eps_decay       |                                                | double    | [0, 1]        | 0.99           |
+| eps_decay       | the rate of epsilon decay                      | double    | [0, 1]        | 0.99           |
 
 ## Other command line options
 
@@ -29,7 +29,7 @@
 |-----------------|:----------------------------------------------:|----------:|---------------:|
 | reward_shaping  | Enable reward shaping?                         | bool      | True           |
 | figure          | Show figures?                                  | bool      | True           |
-| print           | print details every time step?                 | bool      | True           |
+| print           | Print details every time step?                 | bool      | True           |
 
 ## Example commands to run
 ```
