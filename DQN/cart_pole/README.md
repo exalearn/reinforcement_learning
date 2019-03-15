@@ -11,7 +11,7 @@
 ## Hyper Parameters
 
 | parameters      |      description                               | data type | range         | default value  |
-|-----------------|:-----------------------------------------------|----------:|--------------:|---------------:|
+|-----------------|:-----------------------------------------------|:---------:|--------------:|---------------:|
 | episodes        | the number of episodes to training             | integer   | [1, infinity) | 2000           |
 | steps           | time steps in each episode                     | integer   | [1, infinity) | 200            |
 | alpha           | learning rate                                  | double    | (0, 1)        | 0.01           |
@@ -26,7 +26,7 @@
 ## Other command line options
 
 | parameters      |      description                               | data type | default value  |
-|-----------------|:----------------------------------------------:|----------:|---------------:|
+|-----------------|:-----------------------------------------------|:---------:|---------------:|
 | reward_shaping  | Enable reward shaping?                         | bool      | True           |
 | figure          | Show figures?                                  | bool      | True           |
 | print           | Print details every time step?                 | bool      | True           |
