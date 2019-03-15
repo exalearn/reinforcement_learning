@@ -10,10 +10,10 @@
 
 ## Hyper Parameters
 
-| parameters      |      description                               | data type | data type     | default value  |
-|-----------------|:----------------------------------------------:|----------:|--------------:|---------------:|
+| parameters      |      description                               | data type | range         | default value  |
+|-----------------|:-----------------------------------------------|----------:|--------------:|---------------:|
 | episodes        | the number of episodes to training             | integer   | [1, infinity) | 2000           |
-| steps           | the time steps in each episode                 | integer   | [1, infinity) | 200            |
+| steps           | time steps in each episode                     | integer   | [1, infinity) | 200            |
 | alpha           | learning rate                                  | double    | (0, 1)        | 0.01           |
 | gamma           | discount factor                                | double    | [0,1]         | 0.9            |
 | batch_size      | the size of mini batch for a neural network    | integer   | (0, infinity)**      | 32             |
