@@ -24,6 +24,7 @@ import argparse
 ############################# command line arguments #############################
 
 parser = argparse.ArgumentParser(description='Description of your program')
+parser.add_argument('-reward_shaping', help='Do you want to do reward shaping?', required=False)
 parser.add_argument('-figure', help='Do you want to print figures?', required=False)
 parser.add_argument('-print', help='Do you want to print details?', required=False)
 parser.add_argument('-episodes', type=int, help='Number of Episodes', required=False)
@@ -41,9 +42,10 @@ args = vars(parser.parse_args())
 
 ############################# Parameters (with default values) #############################
 
+reward_shaping  = False if args['reward_shaping'] == 'false' else True # reward shaping
 showFigures     = False if args['figure'] == 'false' else True # show figures
 printDetails    = False if args['print'] == 'false' else True  # print details
-EPISODES        = 100  if args['episodes'] is None else args['episodes'] # # of episodes to train
+EPISODES        = 2000  if args['episodes'] is None else args['episodes'] # # of episodes to train
 TIMESTEPS       = 200  if args['steps'] is None else args['steps'] # # of time steps in each episode
 ALPHA           = 0.01 if args['alpha'] == None else args['alpha'] # learning rate
 GAMMA           = 0.9  if args['gamma'] == None else args['gamma'] # discount factor
@@ -162,7 +164,7 @@ class DQN(object):
                 a = self.select_action(s)        # select action
                 s1, r, done, info = env.step(a)  # take action
                 score += r  # accumulate the original score
-                r = self.reward_shaping(s1)
+                if reward_shaping: r = self.rewardShaping(s1)
                 self.store_transition(s, a, r, s1)  # store transition in the replay memory
 
                 # if enough trajectories in the replay memory, start training DQN
@@ -184,7 +186,7 @@ class DQN(object):
                 break
 
 
-    def reward_shaping(self, s1):   # imprve reward function
+    def rewardShaping(self, s1):   # imprve reward function
         x, x_dot, theta, theta_dot = s1
         r1 = (env.x_threshold - abs(x)) / env.x_threshold - 0.8
         r2 = (env.theta_threshold_radians - abs(theta)) / env.theta_threshold_radians - 0.5
